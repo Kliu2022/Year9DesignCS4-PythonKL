@@ -11,3 +11,4 @@ commit = "git commit -m " + str1
 
 os.system(commit)
 os.system("git push")
+ 
