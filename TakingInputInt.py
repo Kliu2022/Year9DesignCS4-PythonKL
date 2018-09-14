@@ -2,8 +2,8 @@
 
 #		assignment
 
-r = int(input("What is the radius: "))
-h = int(input("What is the height: "))
+r = int(input("What is the radius: ")) #casting
+h = int(input("What is the height: ")) #casting
 
 #	process
 
