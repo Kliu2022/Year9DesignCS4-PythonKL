@@ -15,3 +15,4 @@ while len(word) < 6 or word.isalpha() == False:
 
 print(word + " is a seriously long word!")
 
+
