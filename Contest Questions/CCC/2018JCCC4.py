@@ -1,3 +1,4 @@
+
 plants = int(input(''))
 tableOld = []
 plantsDecrease = 0          # Tested at end
