@@ -40,10 +40,11 @@ class CylinderCalc:
 		print("Calculating Volume")
 		r = float(self.entr.get())
 		h = float(self.enth.get())
+
 		v = math.pi*r*r*h
-		outputValue = "The volume is: " + str(r)
+ 		outputValue = "The volume is: " + str(r)
 		self.output.config(state="normal")
-		self.output.insert(tk.INSERT, outputValue)
+		self.output.insert(tk.INSERT, "TEST")
 		self.output.config(state="disabled")
 
 cylinderCalc = CylinderCalc()
