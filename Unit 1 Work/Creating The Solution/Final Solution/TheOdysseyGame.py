@@ -1,5 +1,5 @@
 import tkinter as tk
-import math
+from PIL import ImageTK, Image 
 
 
 # declaring blank variables
@@ -7,6 +7,9 @@ questionNumber = 0
 attempts = 0
 scoreTotal = 0
 began = 0
+themeNumber = 0
+
+
 
 
 # Score Counter 
@@ -55,6 +58,8 @@ def answerKey(q, a):
 		
 			#Upon checking correct answer: display next question
 			questionNumber += 1
+			if questionNumber == 5:
+				theme = 1
 			question.config(state="normal")
 			question.delete(1.0,tk.END)
 			question.insert(tk.INSERT, questions(questionNumber))
@@ -193,19 +198,12 @@ def answers(c,n):
 # When game beat (endscreen) 
 def endScreen():
 
+	global mainScr
 
-	result.grid_forget()
-	answerA.grid_forget()
-	answerB.grid_forget()
-	answerC.grid_forget()
-	answerD.grid_forget()
-	scoreText.grid_forget()
-	score.grid_forget()
-	question.grid_forget()
+	endScr = tk.Toplevel(root)
+	mainScr.withdraw()
 
-
-
-	congrat = tk.Text(root)
+	congrat = tk.Text(endScr)
 	congrat.config(height=35, width = 104, borderwidth=3, relief=tk.GROOVE)
 	congrat.config(state="normal")
 	congrat.delete(1.0,tk.END)
@@ -215,19 +213,19 @@ def endScreen():
 	congrat.grid(row = 0, column = 0, columnspan = 4, rowspan = 4)
 	return()
 
-# to begin
-def beginScreen():
-	beginScr = tk.topLevel(root)
-	beganText = tk.Text(beginScr, height = 30, width = 80, borderwidth = 3, relief = tk.GROOVE)
-	beganText.grid()
+# Colour Background Displayer
+def colourBackground(theme, button):
+	return()
 
-	beganButton = tk.Button(beginScr, text="Begin!", command = mainScreen())
-	beganButton.grid()
+
 
 # main GUI
 def mainScreen():
 
-	mainScr = tk.topLevel(root)
+	global mainScr
+
+	mainScr = tk.Toplevel(root)
+	root.withdraw()
 
 	global questionNumber
 	global question
@@ -240,50 +238,70 @@ def mainScreen():
 	global score
 	global answerKey
 
+	if questionNumber >= 8: 
+		endScreen()
+	else: 
 
-	question = tk.Text(mainScr, height = 20, width = 104, borderwidth=3, relief=tk.GROOVE)
-	question.insert(tk.INSERT, questions(questionNumber))
-	question.config(state="disabled")
-	question.grid(row = 0, column = 0, columnspan = 4)
+		mainScr.configure(background='#FFF6CC')
 
-	result = tk.Text(mainScr, height = 6, width = 68, borderwidth = 3, relief= tk.GROOVE)
-	result.config(state="disabled")
-	result.grid(row=1, column = 0, columnspan = 2, rowspan = 2)
+		title = tk.Text(mainScr, height = 2, width = 57, font = 'helvetica 24')
+		title.insert(tk.INSERT, "The Odyssey Game")
+		question.config(state = "disabled")
+		title.grid(row = 0, column = 0, columnspan = 4)
 
-	answerA = tk.Button(mainScr, text=answers(0,questionNumber), height = 3, width = 40, command = lambda: answerKey(questionNumber, "a"))
-	answerA.grid(row = 3, column = 0)
+		image1 = Image.open("The-Odyssey.jpg")
+		photo1 = ImageTk.PhotoImage(image1)
 
-	answerB = tk.Button(mainScr, text=answers(1,questionNumber), height = 3, width = 40, command = lambda: answerKey(questionNumber, "b"))
-	answerB.grid(row = 3, column = 1, columnspan = 3)
+		imageLabel = tk.Label(mainScr, image = photo1)
+		imageLabel = photo1
+		imageLabel.grid(row = 1, column = 0, columnspan = 4)
 
-	answerC = tk.Button(mainScr, text=answers(2,questionNumber), height = 3, width = 40, command = lambda: answerKey(questionNumber, "c"))
-	answerC.grid(row = 4, column = 0)
+		question = tk.Text(mainScr, height = 20, width = 88, borderwidth=3, relief=tk.GROOVE, background='#FFF4BF', font ='mincho 14')
+		question.insert(tk.INSERT, questions(questionNumber))
+		question.config(state="disabled")
+		question.grid(row = 2, column = 0, columnspan = 4, padx=(30))
 
-	answerD = tk.Button(mainScr, text=answers(3,questionNumber), height = 3, width = 40, command = lambda: answerKey(questionNumber, "d"))
-	answerD.grid(row = 4, column = 1, columnspan = 3)
+		result = tk.Text(mainScr, height = 6, width = 69, borderwidth = 3, relief= tk.GROOVE, background = '#FFF4BF', font ='mincho 14')
+		result.config(state="disabled")
+		result.grid(row=3, column = 0, columnspan = 2, rowspan = 2, padx=(30,0))
 
-	scoreText = tk.Text(mainScr, height = 3, width = 13)
-	scoreText.insert(tk.INSERT, "Score: ")
-	scoreText.config(state="disabled")
-	scoreText.grid(row = 1, column = 2)
+		answerA = tk.Button(mainScr, text=answers(0,questionNumber), height = 3, width = 40, background='#D6C883',command = lambda: answerKey(questionNumber, "a"), font ='mincho 14')
+		answerA.grid(row = 5, column = 0, padx = (30,0))
 
-	score = tk.Text(mainScr, height = 3, width = 13)
-	score.config(state="disabled")
-	score.grid(row = 1, column = 3)
+		answerB = tk.Button(mainScr, text=answers(1,questionNumber), height = 3, width = 40, background='#D6C883',command = lambda: answerKey(questionNumber, "b"), font ='mincho 14')
+		answerB.grid(row = 5, column = 1, columnspan = 3, padx = (0,30))
+
+		answerC = tk.Button(mainScr, text=answers(2,questionNumber), height = 3, width = 40, background='#D6C883',command = lambda: answerKey(questionNumber, "c"), font ='mincho 14')
+		answerC.grid(row = 6, column = 0, padx = (30,0))
+
+		answerD = tk.Button(mainScr, text=answers(3,questionNumber), height = 3, width = 40, background='#D6C883',command = lambda: answerKey(questionNumber, "d"), font ='mincho 14')
+		answerD.grid(row = 6, column = 1, columnspan = 3, padx = (0,30))
+
+		scoreText = tk.Text(mainScr, height = 1, width = 6, borderwidth = 0)
+		scoreText.insert(tk.INSERT, "Score: ")
+		scoreText.config(state="disabled", background = '#FFF6CC')
+		scoreText.grid(row = 3, column = 2, padx = (20,0))
+
+		score = tk.Text(mainScr, height = 1, width = 5, borderwidth = 0)
+		score.config(state="disabled", background = '#FFF6CC')
+		score.grid(row = 3, column = 3, padx = (0,50))
+
+# to begin
+def beginScreen():
+
+	beganText = tk.Text(root, height = 30, width = 80, borderwidth = 3, relief = tk.GROOVE)
+	beganText.grid()
+
+	beganButton = tk.Button(root, text="Begin!", command = mainScreen)
+	beganButton.grid()
+
+
 
 
 #TK MAINLOOP :)
 
 root = tk.Tk()  
 
-elif questionNumber >=8:
-
-	endScreen()
-
-else:
-
-	mainScreen()
+beginScreen()
 
 root.mainloop()
-
-
